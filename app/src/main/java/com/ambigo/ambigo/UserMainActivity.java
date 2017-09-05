@@ -6,8 +6,11 @@ import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -32,6 +35,9 @@ public class UserMainActivity extends AppCompatActivity implements OnMapReadyCal
     LocationRequest mLocationRequest;
     Marker marker;
 
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mActionBarToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +47,24 @@ public class UserMainActivity extends AppCompatActivity implements OnMapReadyCal
         } else {
             Toast.makeText(this, "play services not awailable, Can't Display Map", Toast.LENGTH_LONG).show();
         }
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_Layout);
+        mActionBarToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.open,R.string.close);
+
+        mDrawerLayout.addDrawerListener(mActionBarToggle);
+        mActionBarToggle.syncState();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(mActionBarToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initMap() {
