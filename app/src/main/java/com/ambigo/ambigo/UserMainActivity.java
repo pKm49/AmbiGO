@@ -5,11 +5,14 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -28,12 +31,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class UserMainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class UserMainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, NavigationView.OnNavigationItemSelectedListener {
 
     GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
     LocationRequest mLocationRequest;
     Marker marker;
+    private Toolbar mToolbar;
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mActionBarToggle;
@@ -48,13 +52,22 @@ public class UserMainActivity extends AppCompatActivity implements OnMapReadyCal
             Toast.makeText(this, "play services not awailable, Can't Display Map", Toast.LENGTH_LONG).show();
         }
 
+        mToolbar = (Toolbar) findViewById(R.id.navigation_action);
+        setSupportActionBar(mToolbar);
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_Layout);
         mActionBarToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.open,R.string.close);
 
         mDrawerLayout.addDrawerListener(mActionBarToggle);
         mActionBarToggle.syncState();
 
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
 
     }
 
@@ -144,5 +157,24 @@ public class UserMainActivity extends AppCompatActivity implements OnMapReadyCal
                         .position(latLng);
                 marker=mMap.addMarker(options);
             }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.home) {
+            Toast.makeText(this, "play services not awailable, Can't Display Map", Toast.LENGTH_LONG).show();
+        } else if (id == R.id.cases) {
+            Toast.makeText(this, "play services not awailable, Can't Display Map", Toast.LENGTH_LONG).show();
+        } else if (id == R.id.hospital_database) {
+            Toast.makeText(this, "play services not awailable, Can't Display Map", Toast.LENGTH_LONG).show();
+        } else if (id == R.id.first_aid) {
+            Toast.makeText(this, "play services not awailable, Can't Display Map", Toast.LENGTH_LONG).show();
+        }
+        else if (id == R.id.help) {
+            Toast.makeText(this, "play services not awailable, Can't Display Map", Toast.LENGTH_LONG).show();
+        }
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return false;
     }
 }
